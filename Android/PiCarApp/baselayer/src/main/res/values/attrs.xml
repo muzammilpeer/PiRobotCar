@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseTextViewStyle">
+        <attr name="textFont" format="enum">
+            <enum name="helvetica_neue" value="0" />
+            <enum name="helvetica_neue_bold" value="1" />
+            <enum name="helvetica_neue_it" value="2" />
+            <enum name="helvetica_neue_medium" value="3" />
+        </attr>
+    </declare-styleable>
+
+</resources>
