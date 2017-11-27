@@ -1,35 +1,74 @@
 package com.androidapp.baselayer.activity;
 
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.androidapp.baselayer.interfaces.ToolbarInterface;
+import com.androidapp.baselayer.interfaces.TablayoutInstanceInterfaces;
+import com.androidapp.baselayer.interfaces.ToolbarInstanceInterface;
 
 /**
  * Created by muzammilpeer on 26/11/2017.
  */
 
-public abstract class BaseToolbarSupportedActivity extends BaseActivity {
+public abstract class BaseToolbarSupportedActivity extends BaseActivity implements ToolbarInstanceInterface, TablayoutInstanceInterfaces {
+
+    Toolbar toolbar = null;
+    TabLayout tabLayout = null;
+    View leftToolbarItem = null;
+    View rightToolbarItem = null;
+
+    @Override
+    protected void initViews() {
+        super.initViews();
+
+        if (getTabLayoutId() != 0) {
+            tabLayout = findViewById(getTabLayoutId());
+        }
+        if (getToolbarLayoutId() != 0) {
+            toolbar = findViewById(getToolbarLayoutId());
+
+            if (getToolbarLeftItemResourceId() != 0) {
+                leftToolbarItem = findViewById(getToolbarLeftItemResourceId());
+            }
+            if (getToolbarRightItemResourceId() != 0) {
+                rightToolbarItem = findViewById(getToolbarRightItemResourceId());
+            }
+        }
+    }
+
+    @Nullable
+    @Override
+    public TabLayout getTabLayout() {
+        return tabLayout;
+    }
+
+    @Nullable
+    @Override
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 
     @Override
     public void showToolBar() {
-        super.showToolBar();
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().show();
-            getSupportActionBar().setHideOffset(0);
+        if (getToolbar() != null) {
+            getToolbar().setVisibility(View.VISIBLE);
+//            getSupportActionBar().show();
+//            getSupportActionBar().setHideOffset(0);
         }
     }
 
     @Override
     public void hideToolBar() {
-        super.hideToolBar();
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
+        if (getToolbar() != null) {
+//            getSupportActionBar().hide();
+            getToolbar().setVisibility(View.GONE);
         }
     }
 
     @Override
     public void showTablayout() {
-        super.showTablayout();
         if (getTabLayout() != null) {
             getTabLayout().setVisibility(View.VISIBLE);
         }
@@ -38,11 +77,56 @@ public abstract class BaseToolbarSupportedActivity extends BaseActivity {
 
     @Override
     public void hideTablayout() {
-        super.hideTablayout();
         if (getTabLayout() != null) {
             getTabLayout().setVisibility(View.GONE);
         }
     }
 
 
+    @Override
+    public void showLeftToolbarItem() {
+        if (getLeftToolbarbarItem() != null) {
+            getLeftToolbarbarItem().setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideLeftToolbarItem() {
+        if (getLeftToolbarbarItem() != null) {
+            getLeftToolbarbarItem().setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showRightToolbarItem() {
+        if (getRightToolbarbarItem() != null) {
+            getRightToolbarbarItem().setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void hideRightToolbarItem() {
+        if (getRightToolbarbarItem() != null) {
+            getRightToolbarbarItem().setVisibility(View.GONE);
+        }
+    }
+
+
+    @Nullable
+    @Override
+    public View getLeftToolbarbarItem() {
+        return leftToolbarItem;
+    }
+
+    @Nullable
+    @Override
+    public View getRightToolbarbarItem() {
+        return rightToolbarItem;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

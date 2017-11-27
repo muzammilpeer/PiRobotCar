@@ -4,27 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.androidapp.baselayer.R;
-import com.androidapp.baselayer.interfaces.TablayoutInterface;
-import com.androidapp.baselayer.interfaces.ToolbarInterface;
 import com.androidapp.baselayer.utils.Log4a;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import butterknife.ButterKnife;
 
 /**
  * Created by muzammilpeer on 01/11/2017.
  */
 
-public abstract class BaseActivity extends AppCompatActivity implements ToolbarInterface,TablayoutInterface {
+public abstract class BaseActivity extends AppCompatActivity {
+
+    String FRAGMENT_TAG = "FRAGMENT_TAG";
 
     Handler handler = new Handler();
     Runnable runnable;
@@ -48,39 +43,12 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarI
     protected void initNetworkCalls() {
     }
 
-    Toolbar toolbar = null;
-    TabLayout tabLayout = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
-
-        if (getTabLayoutId() != 0) {
-            tabLayout = findViewById(getTabLayoutId());
-        }
-        if (getToolbarLayoutId() != 0) {
-            toolbar = findViewById(getToolbarLayoutId());
-        }
-
         setupActivity();
-    }
-
-    //optional layout
-    protected int getToolbarLayoutId() {
-        return 0;
-    }
-
-    protected int getTabLayoutId() {
-        return 0;
-    }
-
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    public TabLayout getTabLayout() {
-        return tabLayout;
     }
 
 
@@ -153,8 +121,10 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarI
             @Override
             public void run() {
                 //Second fragment after 5 seconds appears
-                getSupportFragmentManager().beginTransaction()
-                        .replace(containerID, frag).addToBackStack(null)
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(containerID, frag)
+                        .addToBackStack(FRAGMENT_TAG)
                         .commit();
             }
         };
@@ -167,21 +137,17 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarI
         // Note that we pass in 4 animations here.  Please see the
         // documentation on this method as it is critical to the
         // understanding of this solution.
-//        getSupportFragmentManager().beginTransaction()
-//                .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
-//                .replace(containerID, frag)
-//                .addToBackStack(null)
-//                .commit();
-
         runnable = new Runnable() {
             @Override
             public void run() {
                 //Second fragment after 5 seconds appears
-                getSupportFragmentManager().beginTransaction()
+                getSupportFragmentManager()
+                        .beginTransaction()
                         .setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_right)
                         .replace(containerID, frag)
-                        .addToBackStack(null)
-                        .commit();            }
+                        .addToBackStack(FRAGMENT_TAG)
+                        .commit();
+            }
         };
         handler.postDelayed(runnable, 100);
     }
@@ -191,38 +157,33 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarI
         // Note that we pass in 4 animations here.  Please see the
         // documentation on this method as it is critical to the
         // understanding of this solution.
-//        getSupportFragmentManager().beginTransaction()
-//                .setCustomAnimations(
-//                        R.anim.card_flip_right_in, R.anim.card_flip_right_out,
-//                        R.anim.card_flip_left_in, R.anim.card_flip_left_out)
-//                .replace(containerID, frag)
-//                .addToBackStack(null)
-//                .commit();
-
         runnable = new Runnable() {
             @Override
             public void run() {
                 //Second fragment after 5 seconds appears
-                getSupportFragmentManager().beginTransaction()
+                getSupportFragmentManager()
+                        .beginTransaction()
                         .setCustomAnimations(
                                 R.anim.card_flip_right_in, R.anim.card_flip_right_out,
                                 R.anim.card_flip_left_in, R.anim.card_flip_left_out)
                         .replace(containerID, frag)
-                        .addToBackStack(null)
+                        .addToBackStack(FRAGMENT_TAG)
                         .commit();
+
             }
         };
         handler.postDelayed(runnable, 100);
     }
 
-    public void replaceFragmentWithoutStack(final Fragment frag, final  int containerID) {
+    public void replaceFragmentWithoutStack(final Fragment frag, final int containerID) {
 
 
         runnable = new Runnable() {
             @Override
             public void run() {
                 //Second fragment after 5 seconds appears
-                getSupportFragmentManager().beginTransaction()
+                getSupportFragmentManager()
+                        .beginTransaction()
                         .replace(containerID, frag)
                         .commit();
             }
@@ -235,6 +196,16 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarI
                 .beginTransaction()
                 .add(containerID,
                         frag).commit();
+    }
+
+    public void addFragmentWithFlipAnimation(Fragment frag, int containerID) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(
+                        R.anim.card_flip_right_in, R.anim.card_flip_right_out,
+                        R.anim.card_flip_left_in, R.anim.card_flip_left_out)
+                .add(containerID, frag)
+                .commit();
     }
 
 
@@ -270,47 +241,9 @@ public abstract class BaseActivity extends AppCompatActivity implements ToolbarI
 
 
     @Override
-    public void showTablayout() {
-
-    }
-
-    @Override
-    public void hideTablayout() {
-
-    }
-
-    @Override
-    public void showToolBar() {
-
-    }
-
-    @Override
-    public void hideToolBar() {
-
-    }
-
-    @Override
-    public void showLeftToolbarItem() {
-
-    }
-
-    @Override
-    public void hideLeftToolbarItem() {
-
-    }
-
-    @Override
-    public void showRightToolbarItem() {
-
-    }
-
-    @Override
-    public void hideRightToolbarItem() {
-
-    }
-
-    @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
     }
+
+
 }

@@ -48,8 +48,6 @@ public class DevicesListFragment extends BaseFragment {
 
     @Override
     public void initViews(View view, Bundle savedInstanceState) {
-        super.initViews(view, savedInstanceState);
-
         devicesListRecyclerView = fragmentBaseView.findViewById(R.id.devicesListRecyclerView);
         searchDevicesButton = fragmentBaseView.findViewById(R.id.searchDevicesButton);
     }

@@ -3,9 +3,7 @@ package com.androidapp.baselayer.cell;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-
 import com.androidapp.baselayer.activity.BaseActivity;
-import com.androidapp.baselayer.model.BaseModel;
 
 import butterknife.ButterKnife;
 

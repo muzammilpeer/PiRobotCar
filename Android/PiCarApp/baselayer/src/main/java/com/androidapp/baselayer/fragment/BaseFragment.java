@@ -1,13 +1,12 @@
 package com.androidapp.baselayer.fragment;
 
-import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.androidapp.baselayer.activity.BaseActivity;
 import com.androidapp.baselayer.utils.Log4a;
@@ -62,15 +61,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-    public void initViews(View view, Bundle savedInstanceState) {
-        getBaseActivity().showToolBar();
-        getBaseActivity().hideRightToolbarItem();
-        if (getBaseActivity().getFragmentsCount() == 1) {
-            getBaseActivity().hideLeftToolbarItem();
-        } else {
-            getBaseActivity().showLeftToolbarItem();
-        }
-    }
+    public abstract void initViews(View view, Bundle savedInstanceState);
 
     public abstract void initObjects();
 
