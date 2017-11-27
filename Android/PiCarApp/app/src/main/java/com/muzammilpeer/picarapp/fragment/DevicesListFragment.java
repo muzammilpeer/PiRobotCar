@@ -1,13 +1,9 @@
 package com.muzammilpeer.picarapp.fragment;
 
+
 import android.Manifest;
-import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -21,12 +17,12 @@ import android.widget.Toast;
 
 import com.androidapp.baselayer.adapter.SimpleRecyclerViewAdapter;
 import com.androidapp.baselayer.fragment.BaseFragment;
-import com.androidapp.baselayer.utils.Log4a;
 import com.androidapp.baselayer.views.BaseButton;
+import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothClassicService;
+import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothConfiguration;
+import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothService;
 import com.muzammilpeer.picarapp.R;
 import com.muzammilpeer.picarapp.cell.DeviceCell;
-
-import java.util.Set;
 
 /**
  * Created by muzammilpeer on 26/11/2017.
@@ -34,12 +30,17 @@ import java.util.Set;
 
 public class DevicesListFragment extends BaseFragment {
 
+
+    private final int REQUEST_ACCESS_FINE_LOCATION_STATE = 1;
+
+
     SimpleRecyclerViewAdapter devicesListRecyclerAdapter;
     RecyclerView devicesListRecyclerView;
     BaseButton searchDevicesButton;
 
-    private BluetoothAdapter mBtAdapter;
 
+    private static final int REQ_BLUETOOTH_ENABLE = 1000;
+    private static final int DEVICE_SCAN_MILLISECONDS = 10 * 1000;
 
     @Override
     public int getLayoutId() {
@@ -55,10 +56,6 @@ public class DevicesListFragment extends BaseFragment {
     @Override
     public void initObjects() {
 
-        // Register for broadcasts when a device is discovered
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-        filter.addAction(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
-        getBaseActivity().registerReceiver(mReceiver, filter);
     }
 
     @Override
@@ -71,31 +68,47 @@ public class DevicesListFragment extends BaseFragment {
         devicesListRecyclerView.setAdapter(devicesListRecyclerAdapter);
 
 
-        // Get the local Bluetooth adapter
-        mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+        BluetoothConfiguration config = new BluetoothConfiguration();
+        config.context = getBaseActivity();
+        config.bluetoothServiceClass = BluetoothClassicService.class; // BluetoothClassicService.class or BluetoothLeService.class
+        config.bufferSize = 1024;
+        config.characterDelimiter = '\n';
+        config.deviceName = "Your App Name";
+        config.callListenersInMainThread = true;
 
-        // Get a set of currently paired devices
-        Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
+// Bluetooth Classic
+        config.uuid = null;// UUID.fromString("00001101-0000-1000-8000-00805f9b34fb"); // Set null to find all devices on scan.
 
-        // If there are paired devices, add each one to the ArrayAdapter
-        if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
-                localDataSource.add(device);
-            }
-            devicesListRecyclerAdapter.notifyDataSetChanged();
-        } else {
-        }
+//// Bluetooth LE
+//        config.uuidService = UUID.fromString("e7810a71-73ae-499d-8c15-faa9aef0c3f2");
+//        config.uuidCharacteristic = UUID.fromString("bef8d6c9-9c21-4c9e-b632-bd58c1009f9f");
+//        config.transport = BluetoothDevice.TRANSPORT_LE; // Only for dual-mode devices
 
+        showAccessLocationStatePermission();
+        BluetoothService.init(config);
+        BluetoothService service = BluetoothService.getDefaultInstance();
         searchDevicesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // bluetooth is off, ask user to on it.
-                if (!mBtAdapter.isEnabled()) {
-                    Intent enableAdapter = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                    startActivityForResult(enableAdapter, REQUEST_ACCESS_FINE_LOCATION_STATE);
-                }
 
-                showAccessLocationStatePermission();
+                service.setOnScanCallback(new BluetoothService.OnBluetoothScanCallback() {
+                    @Override
+                    public void onDeviceDiscovered(BluetoothDevice device, int rssi) {
+                        localDataSource.add(device);
+                        devicesListRecyclerAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onStartScan() {
+                    }
+
+                    @Override
+                    public void onStopScan() {
+                    }
+                });
+
+                service.startScan(); // See also service.stopScan();
+
 
             }
         });
@@ -103,8 +116,18 @@ public class DevicesListFragment extends BaseFragment {
 
     }
 
-    private final int REQUEST_ACCESS_FINE_LOCATION_STATE = 1;
 
+    @Override
+    public void initNetworkCalls() {
+
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
 
     private void showAccessLocationStatePermission() {
         int permissionCheck = ContextCompat.checkSelfPermission(
@@ -117,69 +140,10 @@ public class DevicesListFragment extends BaseFragment {
                 requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, REQUEST_ACCESS_FINE_LOCATION_STATE);
             }
         } else {
-            doDiscovery();
             Toast.makeText(getBaseActivity(), "Permission (already) Granted!", Toast.LENGTH_SHORT).show();
+
         }
     }
-
-
-    @Override
-    public void initNetworkCalls() {
-
-    }
-
-    /**
-     * Start device discover with the BluetoothAdapter
-     */
-    private void doDiscovery() {
-        // If we're already discovering, stop it
-        if (mBtAdapter.isDiscovering()) {
-            mBtAdapter.cancelDiscovery();
-        }
-        // Request discover from BluetoothAdapter
-        mBtAdapter.startDiscovery();
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // Make sure we're not doing discovery anymore
-        if (mBtAdapter != null) {
-            mBtAdapter.cancelDiscovery();
-        }
-
-        // Unregister broadcast listeners
-        getBaseActivity().unregisterReceiver(mReceiver);
-    }
-
-    // The BroadcastReceiver that listens for discovered devices and
-    // changes the title when discovery is finished
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-
-            // When discovery finds a device
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                // Get the BluetoothDevice object from the Intent
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                Log4a.e("device found", device.getAddress());
-                // If it's already paired, skip it, because it's been listed already
-                if (device.getBondState() != BluetoothDevice.BOND_BONDED) {
-                    if (localDataSource.contains(device) == false) {
-                        localDataSource.add(device);
-                    }
-                }
-                devicesListRecyclerAdapter.notifyDataSetChanged();
-
-                // When discovery is finished, change the Activity title
-            } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                devicesListRecyclerAdapter.notifyDataSetChanged();
-            }
-        }
-    };
-
 
     @Override
     public void onRequestPermissionsResult(
@@ -191,8 +155,6 @@ public class DevicesListFragment extends BaseFragment {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getBaseActivity(), "Permission Granted!", Toast.LENGTH_SHORT).show();
-
-                    doDiscovery();
                 } else {
                     Toast.makeText(getBaseActivity(), "Permission Denied!", Toast.LENGTH_SHORT).show();
                 }
@@ -218,4 +180,6 @@ public class DevicesListFragment extends BaseFragment {
         ActivityCompat.requestPermissions(getBaseActivity(),
                 new String[]{permissionName}, permissionRequestCode);
     }
+
+
 }
