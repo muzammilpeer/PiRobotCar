@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/x4"
+    android:orientation="vertical">
+
+
+    <com.androidapp.baselayer.views.BaseTextView
+        android:id="@+id/connectionStatusTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Status" />
+
+    <com.androidapp.baselayer.views.BaseButton
+        android:id="@+id/sendButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/x4"
+        android:text="Send" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/chatHistoryRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+
+    <com.androidapp.baselayer.views.BaseEditText
+        android:id="@+id/chatEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:minLines="1" />
+
+
+</LinearLayout>

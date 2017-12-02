@@ -1,0 +1,114 @@
+Starting RobotServer
+open using BlueCove javax.microedition.io.Connector
+connecting btspp://localhost:0000110100001000800000805f9b34fb;name=robotserver
+Use stack ClassLoader
+Can't load library file 
+java.lang.UnsatisfiedLinkError: /private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib: dlopen(/private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib, 1): no suitable image found.  Did find:
+	/private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib: no matching architecture in universal wrapper
+	/private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib: no matching architecture in universal wrapper
+	at java.base/java.lang.ClassLoader$NativeLibrary.load(Native Method)
+	at java.base/java.lang.ClassLoader.loadLibrary0(ClassLoader.java:2614)
+	at java.base/java.lang.ClassLoader.loadLibrary(ClassLoader.java:2499)
+	at java.base/java.lang.Runtime.load0(Runtime.java:812)
+	at java.base/java.lang.System.load(System.java:1821)
+	at com.intel.bluetooth.NativeLibLoader.loadAsSystemResource(NativeLibLoader.java:311)
+	at com.intel.bluetooth.NativeLibLoader.isAvailable(NativeLibLoader.java:198)
+	at com.intel.bluetooth.BlueCoveImpl.loadNativeLibraries(BlueCoveImpl.java:380)
+	at com.intel.bluetooth.BlueCoveImpl.detectStack(BlueCoveImpl.java:434)
+	at com.intel.bluetooth.BlueCoveImpl.access$500(BlueCoveImpl.java:65)
+	at com.intel.bluetooth.BlueCoveImpl$1.run(BlueCoveImpl.java:1020)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at com.intel.bluetooth.BlueCoveImpl.detectStackPrivileged(BlueCoveImpl.java:1018)
+	at com.intel.bluetooth.BlueCoveImpl.getBluetoothStack(BlueCoveImpl.java:1011)
+	at javax.bluetooth.LocalDevice.getLocalDeviceInstance(LocalDevice.java:75)
+	at javax.bluetooth.LocalDevice.getLocalDevice(LocalDevice.java:95)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.getLocalDevice(DiscoverableTimerTask.java:17)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.run(DiscoverableTimerTask.java:26)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:556)
+	at java.base/java.util.TimerThread.run(Timer.java:506)
+Library bluecove not loaded 
+java.lang.UnsatisfiedLinkError: no bluecove in java.library.path
+	at java.base/java.lang.ClassLoader.loadLibrary(ClassLoader.java:2541)
+	at java.base/java.lang.Runtime.loadLibrary0(Runtime.java:873)
+	at java.base/java.lang.System.loadLibrary(System.java:1857)
+	at com.intel.bluetooth.NativeLibLoader.tryload(NativeLibLoader.java:218)
+	at com.intel.bluetooth.NativeLibLoader.isAvailable(NativeLibLoader.java:202)
+	at com.intel.bluetooth.BlueCoveImpl.loadNativeLibraries(BlueCoveImpl.java:380)
+	at com.intel.bluetooth.BlueCoveImpl.detectStack(BlueCoveImpl.java:434)
+	at com.intel.bluetooth.BlueCoveImpl.access$500(BlueCoveImpl.java:65)
+	at com.intel.bluetooth.BlueCoveImpl$1.run(BlueCoveImpl.java:1020)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at com.intel.bluetooth.BlueCoveImpl.detectStackPrivileged(BlueCoveImpl.java:1018)
+	at com.intel.bluetooth.BlueCoveImpl.getBluetoothStack(BlueCoveImpl.java:1011)
+	at javax.bluetooth.LocalDevice.getLocalDeviceInstance(LocalDevice.java:75)
+	at javax.bluetooth.LocalDevice.getLocalDevice(LocalDevice.java:95)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.getLocalDevice(DiscoverableTimerTask.java:17)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.run(DiscoverableTimerTask.java:26)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:556)
+	at java.base/java.util.TimerThread.run(Timer.java:506)
+java.library.path /Users/muzammilpeer/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+BlueCove library bluecove not available
+BlueCove library bluecove not available
+waiting for connection...
+Stopping RobotServer
+Starting RobotServer
+open using BlueCove javax.microedition.io.Connector
+connecting btspp://localhost:0000110100001000800000805f9b34fb;name=robotserver
+Can't load library file 
+java.lang.UnsatisfiedLinkError: /private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib: dlopen(/private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib, 1): no suitable image found.  Did find:
+	/private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib: no matching architecture in universal wrapper
+	/private/var/folders/gq/1rvh_bpd7kd084b23mdpd81w0000gn/T/bluecove_muzammilpeer_0/libbluecove.jnilib: no matching architecture in universal wrapper
+	at java.base/java.lang.ClassLoader$NativeLibrary.load(Native Method)
+	at java.base/java.lang.ClassLoader.loadLibrary0(ClassLoader.java:2614)
+	at java.base/java.lang.ClassLoader.loadLibrary(ClassLoader.java:2499)
+	at java.base/java.lang.Runtime.load0(Runtime.java:812)
+	at java.base/java.lang.System.load(System.java:1821)
+	at com.intel.bluetooth.NativeLibLoader.loadAsSystemResource(NativeLibLoader.java:311)
+	at com.intel.bluetooth.NativeLibLoader.isAvailable(NativeLibLoader.java:198)
+	at com.intel.bluetooth.BlueCoveImpl.loadNativeLibraries(BlueCoveImpl.java:380)
+	at com.intel.bluetooth.BlueCoveImpl.detectStack(BlueCoveImpl.java:434)
+	at com.intel.bluetooth.BlueCoveImpl.access$500(BlueCoveImpl.java:65)
+	at com.intel.bluetooth.BlueCoveImpl$1.run(BlueCoveImpl.java:1020)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at com.intel.bluetooth.BlueCoveImpl.detectStackPrivileged(BlueCoveImpl.java:1018)
+	at com.intel.bluetooth.BlueCoveImpl.getBluetoothStack(BlueCoveImpl.java:1011)
+	at javax.bluetooth.LocalDevice.getLocalDeviceInstance(LocalDevice.java:75)
+	at javax.bluetooth.LocalDevice.getLocalDevice(LocalDevice.java:95)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.getLocalDevice(DiscoverableTimerTask.java:17)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.run(DiscoverableTimerTask.java:26)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:556)
+	at java.base/java.util.TimerThread.run(Timer.java:506)
+Library bluecove not loaded 
+java.lang.UnsatisfiedLinkError: no bluecove in java.library.path
+	at java.base/java.lang.ClassLoader.loadLibrary(ClassLoader.java:2541)
+	at java.base/java.lang.Runtime.loadLibrary0(Runtime.java:873)
+	at java.base/java.lang.System.loadLibrary(System.java:1857)
+	at com.intel.bluetooth.NativeLibLoader.tryload(NativeLibLoader.java:218)
+	at com.intel.bluetooth.NativeLibLoader.isAvailable(NativeLibLoader.java:202)
+	at com.intel.bluetooth.BlueCoveImpl.loadNativeLibraries(BlueCoveImpl.java:380)
+	at com.intel.bluetooth.BlueCoveImpl.detectStack(BlueCoveImpl.java:434)
+	at com.intel.bluetooth.BlueCoveImpl.access$500(BlueCoveImpl.java:65)
+	at com.intel.bluetooth.BlueCoveImpl$1.run(BlueCoveImpl.java:1020)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at com.intel.bluetooth.BlueCoveImpl.detectStackPrivileged(BlueCoveImpl.java:1018)
+	at com.intel.bluetooth.BlueCoveImpl.getBluetoothStack(BlueCoveImpl.java:1011)
+	at javax.bluetooth.LocalDevice.getLocalDeviceInstance(LocalDevice.java:75)
+	at javax.bluetooth.LocalDevice.getLocalDevice(LocalDevice.java:95)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.getLocalDevice(DiscoverableTimerTask.java:17)
+	at com.muzammilpeer.robotserver.thread.DiscoverableTimerTask.run(DiscoverableTimerTask.java:26)
+	at java.base/java.util.TimerThread.mainLoop(Timer.java:556)
+	at java.base/java.util.TimerThread.run(Timer.java:506)
+java.library.path /Users/muzammilpeer/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+BlueCove library bluecove not available
+BlueCove library bluecove not available
+waiting for connection...
+Stopping RobotServer
+Starting RobotServer
+BlueCove library bluecove not available;
+resource not found libbluecove.jnilib
+load [bluecove] no bluecove in java.library.path
+BlueCove library bluecove not available;
+resource not found libbluecove.jnilib
+load [bluecove] no bluecove in java.library.path
+waiting for connection...
+Stopping RobotServer
