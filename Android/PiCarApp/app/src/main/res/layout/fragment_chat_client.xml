@@ -13,12 +13,91 @@
         android:gravity="center"
         android:text="Status" />
 
-    <com.androidapp.baselayer.views.BaseButton
-        android:id="@+id/sendButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/x4"
-        android:text="Send" />
+        android:orientation="horizontal">
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/sendButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="Send" />
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/closeButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="End" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/leftButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="Left" />
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/rightButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="Right" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/forwardButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="Forward" />
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/reverseButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="Reverse" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.androidapp.baselayer.views.BaseButton
+            android:id="@+id/stopButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/x4"
+            android:text="Stop" />
+
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/chatHistoryRecyclerView"

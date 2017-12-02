@@ -22,11 +22,17 @@ import com.muzammilpeer.picarapp.utils.RecyclerViewLayoutManger;
  * Created by muzammilpeer on 29/11/2017.
  */
 
-public class ChatClientFragment extends BaseFragment implements BluetoothService.OnBluetoothScanCallback, BluetoothService.OnBluetoothEventCallback {
+public class ChatClientFragment extends BaseFragment implements BluetoothService.OnBluetoothScanCallback, BluetoothService.OnBluetoothEventCallback, View.OnClickListener {
 
     BaseEditText chatEditText;
     BaseButton sendButton;
+    BaseButton closeButton;
     RecyclerView chatHistoryRecyclerView;
+
+
+    //Controls
+    BaseButton leftButton, rightButton, forwardButton, reverseButton, stopButton;
+
 
     SimpleRecyclerViewAdapter chatHistoryRecyclerAdapter;
 
@@ -58,6 +64,16 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
 
         chatEditText = fragmentBaseView.findViewById(R.id.chatEditText);
         sendButton = fragmentBaseView.findViewById(R.id.sendButton);
+        closeButton = fragmentBaseView.findViewById(R.id.closeButton);
+
+
+        leftButton = fragmentBaseView.findViewById(R.id.leftButton);
+        rightButton = fragmentBaseView.findViewById(R.id.rightButton);
+        forwardButton = fragmentBaseView.findViewById(R.id.forwardButton);
+        reverseButton = fragmentBaseView.findViewById(R.id.reverseButton);
+        stopButton = fragmentBaseView.findViewById(R.id.stopButton);
+
+
         chatHistoryRecyclerView = fragmentBaseView.findViewById(R.id.chatHistoryRecyclerView);
     }
 
@@ -71,7 +87,6 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
     @Override
     public void initListenerOrAdapter() {
 
-
         bluetoothService.setOnScanCallback(this);
         bluetoothService.setOnEventCallback(this);
         bluetoothService.connect(currentDevice);
@@ -81,11 +96,24 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
         chatHistoryRecyclerView.setAdapter(chatHistoryRecyclerAdapter);
 
 
+        leftButton.setOnClickListener(this);
+        rightButton.setOnClickListener(this);
+        forwardButton.setOnClickListener(this);
+        reverseButton.setOnClickListener(this);
+        stopButton.setOnClickListener(this);
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 bluetoothWriter.writeln(chatEditText.getText().toString() + "");
                 chatEditText.setText("");
+            }
+        });
+
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bluetoothService.disconnect();
             }
         });
 
@@ -143,6 +171,35 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
 
     @Override
     public void onStopScan() {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.leftButton: {
+                bluetoothWriter.writeln("left");
+            }
+            break;
+            case R.id.rightButton: {
+                bluetoothWriter.writeln("right");
+            }
+            break;
+            case R.id.forwardButton: {
+                bluetoothWriter.writeln("forward");
+            }
+            break;
+            case R.id.reverseButton: {
+                bluetoothWriter.writeln("reverse");
+            }
+            break;
+            case R.id.stopButton: {
+                bluetoothWriter.writeln("stop");
+            }
+            break;
+
+        }
 
     }
 }

@@ -28,5 +28,7 @@ public class AppConfig {
     public String serverWelcomeMessage = "welcome to robot controller server";
     public String serverClosingMessage = "stopServer";
 
+    public int motorMoveDuration = 1;
+
 
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="adce31d5-c499-40d9-a73a-bce73628d47e" name="RaspberryPiModelB" url="http://192.168.8.3">
+      <webServer id="e30d439a-a8b7-43e3-959d-8ed7c7ce3356" name="RaspberryPi2" url="http://192.168.8.3">
         <fileTransfer host="192.168.8.3" port="22" rootFolder="/home/pi/project" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />

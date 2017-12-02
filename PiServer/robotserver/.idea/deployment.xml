@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="RaspberryPi3">
+  <component name="PublishConfigData" serverName="RaspberryPi2">
     <serverData>
-      <paths name="RaspberryPi3">
+      <paths name="RaspberryPi2">
         <serverdata>
           <mappings>
-            <mapping deploy="/robotcar" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="robotserver" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
-      <paths name="RaspberryPiModelB">
+      <paths name="RaspberryPi3">
         <serverdata>
           <mappings>
             <mapping deploy="/robotcar" local="$PROJECT_DIR$" web="/" />
