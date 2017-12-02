@@ -1,6 +1,5 @@
 package com.muzammilpeer.picarapp.cell;
 
-import android.bluetooth.BluetoothDevice;
 import android.view.View;
 
 import com.androidapp.baselayer.cell.BaseCell;
@@ -25,7 +24,7 @@ public class ChatMessageCell extends BaseCell {
     public void updateCell(Object model) {
         mDataSource = model;
         if (model instanceof String) {
-            BluetoothDevice dataSource = (BluetoothDevice) model;
+            String dataSource = (String) model;
             messageTextView.setText(model + "");
         }
 

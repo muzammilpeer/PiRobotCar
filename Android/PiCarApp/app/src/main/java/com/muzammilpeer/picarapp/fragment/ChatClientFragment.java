@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.androidapp.baselayer.adapter.SimpleRecyclerViewAdapter;
 import com.androidapp.baselayer.fragment.BaseFragment;
+import com.androidapp.baselayer.utils.Log4a;
 import com.androidapp.baselayer.views.BaseButton;
 import com.androidapp.baselayer.views.BaseEditText;
 import com.github.douglasjunior.bluetoothclassiclibrary.BluetoothService;
@@ -21,7 +22,7 @@ import com.muzammilpeer.picarapp.utils.RecyclerViewLayoutManger;
  * Created by muzammilpeer on 29/11/2017.
  */
 
-public class ChatClientFragment extends BaseFragment implements BluetoothService.OnBluetoothEventCallback {
+public class ChatClientFragment extends BaseFragment implements BluetoothService.OnBluetoothScanCallback, BluetoothService.OnBluetoothEventCallback {
 
     BaseEditText chatEditText;
     BaseButton sendButton;
@@ -37,9 +38,9 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
 
     public static ChatClientFragment newInstance(BluetoothDevice bluetoothDevice) {
         ChatClientFragment fragment = new ChatClientFragment();
-        Bundle args = new Bundle();
-        args.putParcelable("selectedDevice", bluetoothDevice);
-        fragment.setArguments(args);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("selectedDevice", bluetoothDevice);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -50,8 +51,9 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
 
     @Override
     public void initViews(View view, Bundle savedInstanceState) {
-        if (savedInstanceState != null && savedInstanceState.containsKey("selectedDevice") == true) {
-            currentDevice = savedInstanceState.getParcelable("selectedDevice");
+        if (getArguments() != null && getArguments().containsKey("selectedDevice") == true) {
+            currentDevice = getArguments().getParcelable("selectedDevice");
+
         }
 
         chatEditText = fragmentBaseView.findViewById(R.id.chatEditText);
@@ -62,13 +64,17 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
     @Override
     public void initObjects() {
         bluetoothService = BluetoothCommonConfiguration.getBluetoothService(getBaseActivity());
+//        bluetoothService = BluetoothService.getDefaultInstance();
         bluetoothWriter = new BluetoothWriter(bluetoothService);
     }
 
     @Override
     public void initListenerOrAdapter() {
 
+
+        bluetoothService.setOnScanCallback(this);
         bluetoothService.setOnEventCallback(this);
+        bluetoothService.connect(currentDevice);
 
         chatHistoryRecyclerView.setLayoutManager(RecyclerViewLayoutManger.getVerticalLayoutManager(getBaseActivity()));
         chatHistoryRecyclerAdapter = new SimpleRecyclerViewAdapter(localDataSource, ChatMessageCell.class, R.layout.cell_chat_message);
@@ -98,22 +104,45 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
 
     @Override
     public void onStatusChange(BluetoothStatus bluetoothStatus) {
+        Log4a.e("onStatusChange", bluetoothStatus.toString());
+
+        if (bluetoothStatus == BluetoothStatus.CONNECTED) {
+            bluetoothWriter.writeln(BluetoothCommonConfiguration.getPhoneBluetoothInformation());
+        }
+
 
     }
 
     @Override
     public void onDeviceName(String s) {
-
+        Log4a.e("onDeviceName", s);
     }
 
     @Override
     public void onToast(String s) {
+        Log4a.e("onToast", s);
 
     }
 
     @Override
     public void onDataWrite(byte[] buffer) {
         localDataSource.add("> " + new String(buffer));
+
         chatHistoryRecyclerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDeviceDiscovered(BluetoothDevice bluetoothDevice, int i) {
+
+    }
+
+    @Override
+    public void onStartScan() {
+
+    }
+
+    @Override
+    public void onStopScan() {
+
     }
 }

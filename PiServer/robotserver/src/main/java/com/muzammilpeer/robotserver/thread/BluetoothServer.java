@@ -130,6 +130,9 @@ public class BluetoothServer extends Thread {
                 Log4a.instance.debug("Waiting for connection...");
                 System.out.println("Waiting for connection...");
                 streamConnection = streamConnectionNotifier.acceptAndOpen();
+                System.out.println("Client Connected");
+                Log4a.instance.debug("Client Connected");
+                LocalDevice.getLocalDevice().setDiscoverable(DiscoveryAgent.GIAC);
                 this.threadPool.execute(new BluetoothServerConnection(this, streamConnection));
             } catch (IOException e) {
                 Log4a.instance.debug(e.getMessage());

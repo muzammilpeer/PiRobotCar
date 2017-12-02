@@ -40,19 +40,34 @@ public class BluetoothServerConnection implements Runnable {
     }
 
     public void run() {
+
         openBothStreams();
 
+        byte[] messageByte = new byte[1000];
+        int bytesRead = 0;
+
+
         try {
-            dataOutputStream.writeUTF(AppConfig.getInstance().serverWelcomeMessage);
-            String messageRead = dataInputStream.readUTF();
+            dataOutputStream.write(AppConfig.getInstance().serverWelcomeMessage.getBytes());
+            dataOutputStream.flush();
+            Log4a.instance.debug("Welcome := " + AppConfig.getInstance().serverWelcomeMessage);
+
+            bytesRead = dataInputStream.read(messageByte);
+            String messageRead = new String(messageByte, 0, bytesRead);
+
+            Log4a.instance.debug("Client Information:" + messageRead);
             while (messageRead.equalsIgnoreCase(AppConfig.getInstance().serverClosingMessage) == false) {
-                messageRead = dataInputStream.readUTF();
-                dataOutputStream.writeUTF(messageRead);
+                bytesRead = dataInputStream.read(messageByte);
+                messageRead = new String(messageByte, 0, bytesRead);
+                Log4a.instance.debug("Message Read:" + messageRead);
+
+                dataOutputStream.write(messageRead.getBytes());
                 dataOutputStream.flush();
-                Log4a.instance.debug(messageRead);
+                Log4a.instance.debug("Message Write:" + messageRead);
             }
             dataOutputStream.close();
             dataInputStream.close();
+            Log4a.instance.debug("Client shutting down");
         } catch (IOException e) {
             Log4a.instance.debug(e.getMessage());
         }

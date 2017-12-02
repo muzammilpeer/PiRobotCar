@@ -83,14 +83,12 @@ public class DevicesListFragment extends BaseFragment implements BluetoothServic
     public void onDestroyView() {
         super.onDestroyView();
 
-        if (mScanning == true) {
-            bluetoothService.stopScan();
-            mScanning = false;
-        }
+//        bluetoothService.stopScan();
+        mScanning = false;
 
-        bluetoothService.disconnect();
-        bluetoothService.setOnEventCallback(null);
-        bluetoothService.setOnScanCallback(null);
+//        bluetoothService.disconnect();
+//        bluetoothService.setOnEventCallback(null);
+//        bluetoothService.setOnScanCallback(null);
     }
 
     @Override
