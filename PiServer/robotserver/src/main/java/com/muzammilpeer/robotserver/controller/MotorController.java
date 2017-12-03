@@ -10,8 +10,8 @@ public class MotorController {
 
     MotorModel leftMotor;
     MotorModel rightMotor;
-    GpioController gpio = GpioFactory.getInstance();
-
+    public GpioController gpio = GpioFactory.getInstance();
+    CarMovesEnum lastKnownMovingState = CarMovesEnum.MOVE_STOP;
 
     public MotorController() {
 //        System.setProperty("pi4j.linking", "dynamic");
@@ -27,20 +27,29 @@ public class MotorController {
                 rightMotor.moveForward();
             }
             break;
-            case MOVE_BACKWARD: {
-                leftMotor.moveBackward();
-                rightMotor.moveBackward();
+            case MOVE_REVERSE: {
+                leftMotor.moveReverse();
+                rightMotor.moveReverse();
             }
             break;
-            case MOVE_LEFT: {
+            case MOVE_FORWARD_LEFT: {
                 leftMotor.moveStop();
                 rightMotor.moveForward();
             }
             break;
-            case MOVE_RIGHT: {
+            case MOVE_FORWARD_RIGHT: {
                 leftMotor.moveForward();
                 rightMotor.moveStop();
-
+            }
+            break;
+            case MOVE_REVERSE_LEFT: {
+                leftMotor.moveStop();
+                rightMotor.moveReverse();
+            }
+            break;
+            case MOVE_REVERSE_RIGHT: {
+                leftMotor.moveReverse();
+                rightMotor.moveStop();
             }
             break;
             case MOVE_STOP: {
@@ -48,12 +57,42 @@ public class MotorController {
                 rightMotor.moveStop();
             }
             break;
+            case MOVE_LEFT: {
+                if (lastKnownMovingState == CarMovesEnum.MOVE_REVERSE) {
+                    leftMotor.moveStop();
+                    rightMotor.moveReverse();
+                } else {
+                    leftMotor.moveStop();
+                    rightMotor.moveForward();
+                }
+            }
+            break;
+            case MOVE_RIGHT: {
+                if (lastKnownMovingState == CarMovesEnum.MOVE_REVERSE) {
+                    leftMotor.moveReverse();
+                    rightMotor.moveStop();
+                } else {
+                    leftMotor.moveForward();
+                    rightMotor.moveStop();
+                }
+            }
+            break;
+            case MOVE_SHUTDOWN: {
+                leftMotor.moveStop();
+                rightMotor.moveStop();
+                gpio.shutdown();
+            }
+            break;
+
+
             default: {
                 leftMotor.moveStop();
                 rightMotor.moveStop();
             }
             break;
         }
+
+        lastKnownMovingState = move;
 
 //        try {
 //            Thread.sleep(2*1000);

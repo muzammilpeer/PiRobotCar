@@ -37,7 +37,7 @@ public class MotorModel {
         pin2.low();
     }
 
-    public void moveBackward() {
+    public void moveReverse() {
         pin1.low();
         pin2.high();
     }

@@ -65,14 +65,20 @@ public class BluetoothServerConnection implements Runnable {
                     motorController.execute(CarMovesEnum.MOVE_FORWARD);
                     Log4a.instance.debug("MOVE_FORWARD:");
                 } else if (messageRead.contains("reverse")) {
-                    motorController.execute(CarMovesEnum.MOVE_BACKWARD);
-                    Log4a.instance.debug("MOVE_BACKWARD:");
-                } else if (messageRead.contains("left")) {
-                    motorController.execute(CarMovesEnum.MOVE_LEFT);
-                    Log4a.instance.debug("MOVE_LEFT:");
-                } else if (messageRead.contains("right")) {
-                    motorController.execute(CarMovesEnum.MOVE_RIGHT);
-                    Log4a.instance.debug("MOVE_RIGHT:");
+                    motorController.execute(CarMovesEnum.MOVE_REVERSE);
+                    Log4a.instance.debug("MOVE_REVERSE:");
+                } else if (messageRead.contains("forward_left")) {
+                    motorController.execute(CarMovesEnum.MOVE_FORWARD_LEFT);
+                    Log4a.instance.debug("MOVE_FORWARD_LEFT:");
+                } else if (messageRead.contains("forward_right")) {
+                    motorController.execute(CarMovesEnum.MOVE_FORWARD_RIGHT);
+                    Log4a.instance.debug("MOVE_FORWARD_RIGHT:");
+                } else if (messageRead.contains("reverse_left")) {
+                    motorController.execute(CarMovesEnum.MOVE_REVERSE_LEFT);
+                    Log4a.instance.debug("MOVE_REVERSE_LEFT:");
+                } else if (messageRead.contains("reverse_right")) {
+                    motorController.execute(CarMovesEnum.MOVE_REVERSE_RIGHT);
+                    Log4a.instance.debug("MOVE_REVERSE_RIGHT:");
                 } else if (messageRead.contains("stop")) {
                     motorController.execute(CarMovesEnum.MOVE_STOP);
                     Log4a.instance.debug("MOVE_STOP:");
@@ -83,12 +89,12 @@ public class BluetoothServerConnection implements Runnable {
                 Log4a.instance.debug("Message Write:" + messageRead);
             }
 
-            motorController.execute(CarMovesEnum.MOVE_STOP);
+            motorController.execute(CarMovesEnum.MOVE_SHUTDOWN);
             dataOutputStream.close();
             dataInputStream.close();
             Log4a.instance.debug("Client shutting down");
         } catch (IOException e) {
-            motorController.execute(CarMovesEnum.MOVE_STOP);
+            motorController.execute(CarMovesEnum.MOVE_SHUTDOWN);
             Log4a.instance.debug(e.getMessage());
         }
 
