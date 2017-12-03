@@ -2,9 +2,12 @@ package com.muzammilpeer.robotserver.controller;
 
 import com.muzammilpeer.robotserver.enums.CarMovesEnum;
 import com.muzammilpeer.robotserver.model.MotorModel;
+import com.muzammilpeer.robotserver.utils.Log4a;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.RaspiPin;
+
+import static com.muzammilpeer.robotserver.enums.CarMovesEnum.*;
 
 public class MotorController {
 
@@ -21,6 +24,9 @@ public class MotorController {
 
 
     public void execute(CarMovesEnum move) {
+
+        Log4a.instance.debug("Last move = " + lastKnownMovingState.toString());
+
         switch (move) {
             case MOVE_FORWARD: {
                 leftMotor.moveForward();
@@ -61,7 +67,7 @@ public class MotorController {
                 if (lastKnownMovingState == CarMovesEnum.MOVE_REVERSE) {
                     leftMotor.moveStop();
                     rightMotor.moveReverse();
-                } else {
+                } else if (lastKnownMovingState == CarMovesEnum.MOVE_FORWARD) {
                     leftMotor.moveStop();
                     rightMotor.moveForward();
                 }
@@ -71,7 +77,7 @@ public class MotorController {
                 if (lastKnownMovingState == CarMovesEnum.MOVE_REVERSE) {
                     leftMotor.moveReverse();
                     rightMotor.moveStop();
-                } else {
+                } else if (lastKnownMovingState == CarMovesEnum.MOVE_FORWARD) {
                     leftMotor.moveForward();
                     rightMotor.moveStop();
                 }
@@ -92,7 +98,11 @@ public class MotorController {
             break;
         }
 
-        lastKnownMovingState = move;
+        if (move == MOVE_FORWARD) {
+            lastKnownMovingState = move;
+        } else if (move == MOVE_REVERSE) {
+            lastKnownMovingState = move;
+        }
 
 //        try {
 //            Thread.sleep(2*1000);

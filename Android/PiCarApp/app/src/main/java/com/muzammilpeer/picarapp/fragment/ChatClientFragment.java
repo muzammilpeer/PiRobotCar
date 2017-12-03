@@ -113,7 +113,7 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bluetoothService.disconnect();
+                bluetoothWriter.writeln("stopServer");
             }
         });
 
@@ -179,23 +179,23 @@ public class ChatClientFragment extends BaseFragment implements BluetoothService
 
         switch (view.getId()) {
             case R.id.leftButton: {
-                bluetoothWriter.writeln("left");
+                bluetoothWriter.writeln("6");
             }
             break;
             case R.id.rightButton: {
-                bluetoothWriter.writeln("right");
+                bluetoothWriter.writeln("7");
             }
             break;
             case R.id.forwardButton: {
-                bluetoothWriter.writeln("forward");
+                bluetoothWriter.writeln("0");
             }
             break;
             case R.id.reverseButton: {
-                bluetoothWriter.writeln("reverse");
+                bluetoothWriter.writeln("1");
             }
             break;
             case R.id.stopButton: {
-                bluetoothWriter.writeln("stop");
+                bluetoothWriter.writeln("8");
             }
             break;
 
